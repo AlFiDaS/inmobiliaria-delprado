@@ -6,7 +6,7 @@ export interface Props {
   canonical?: string;
 }
 
-const { title, description = 'Del Prado Inmobiliaria - Encuentra tu hogar ideal', image, canonical } = Astro.props;
+const { title, description = 'Del Prado Inversión Inmobiliaria - Venta y alquiler de propiedades en Corrientes Capital. Casas, departamentos, locales comerciales y oficinas.', image, canonical } = Astro.props;
 
 const siteUrl = Astro.site;
 const fullTitle = title.includes('Del Prado') ? title : `${title} | Del Prado Inmobiliaria`;
@@ -26,6 +26,10 @@ const fullCanonical = canonical ? `${siteUrl}${canonical}` : Astro.url.href;
     <!-- SEO -->
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content="inmobiliaria, propiedades, venta, alquiler, casas, departamentos, Corrientes, Corrientes Capital, locales comerciales, oficinas, terreno, duplex, ph, martillero público, Gastón del Prado" />
+    <meta name="author" content="Del Prado Inversión Inmobiliaria" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
     <link rel="canonical" href={fullCanonical} />
     
     <!-- Open Graph -->
@@ -34,7 +38,9 @@ const fullCanonical = canonical ? `${siteUrl}${canonical}` : Astro.url.href;
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={fullImage} />
-        <meta property="og:site_name" content="Del Prado Inmobiliaria" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Del Prado Inversión Inmobiliaria" />
     <meta property="og:locale" content="es_AR" />
     
     <!-- Twitter -->
@@ -43,6 +49,13 @@ const fullCanonical = canonical ? `${siteUrl}${canonical}` : Astro.url.href;
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={fullImage} />
+    <meta name="twitter:site" content="@delpradoinmobiliaria" />
+    
+    <!-- Additional SEO -->
+    <meta name="geo.region" content="AR-W" />
+    <meta name="geo.placename" content="Corrientes Capital" />
+    <meta name="geo.position" content="-27.4692;-58.8306" />
+    <meta name="ICBM" content="-27.4692, -58.8306" />
     
     <!-- Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -57,18 +70,40 @@ const fullCanonical = canonical ? `${siteUrl}${canonical}` : Astro.url.href;
         "@context": "https://schema.org",
         "@type": "RealEstateAgent",
         "name": "Del Prado Inversión Inmobiliaria",
-        "description": "Inmobiliaria especializada en venta y alquiler de propiedades en Corrientes Capital",
-        "url": "https://delpradoinmobiliaria.com",
+        "alternateName": "Del Prado Inmobiliaria",
+        "description": "Inmobiliaria especializada en venta y alquiler de propiedades en Corrientes Capital. Casas, departamentos, locales comerciales y oficinas.",
+        "url": "https://delprado.hechoencorrientes.com",
         "telephone": "+54 9 3794 74 0207",
+        "email": "info@delpradoinmobiliaria.com",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "San Martin 1127",
           "addressLocality": "Corrientes Capital",
-          "addressCountry": "AR"
+          "addressRegion": "Corrientes",
+          "addressCountry": "AR",
+          "postalCode": "3400"
         },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "-27.4692",
+          "longitude": "-58.8306"
+        },
+        "openingHours": "Mo-Fr 09:00-18:00, Sa 09:00-13:00",
+        "priceRange": "$$",
+        "areaServed": {
+          "@type": "City",
+          "name": "Corrientes Capital"
+        },
+        "serviceType": ["Real Estate Sales", "Property Rental", "Real Estate Consulting"],
         "sameAs": [
           "https://wa.me/5493794740207"
-        ]
+        ],
+        "founder": {
+          "@type": "Person",
+          "name": "Gastón del Prado",
+          "jobTitle": "Martillero Público",
+          "description": "Martillero Público M.P. N° 321"
+        }
       }
     </script>
   </head>

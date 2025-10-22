@@ -54,6 +54,48 @@ const whatsappMessage = createPropertyMessage(property);
   image={property.images[0]}
   canonical={`/propiedad/${property.slug}`}
 >
+  <!-- Schema.org JSON-LD for Property -->
+  <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateListing",
+      "name": "{property.title}",
+      "description": "{property.description || `Propiedad ${property.operation} en ${property.city}. ${property.type} con ${property.bedrooms || 0} dormitorios y ${property.bathrooms || 0} baños.`}",
+      "url": "https://delprado.hechoencorrientes.com/propiedad/{property.slug}",
+      "image": [
+        "{property.images.map(img => `https://delprado.hechoencorrientes.com${img}`).join('", "')}"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "{property.price}",
+        "priceCurrency": "{property.currency}",
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@type": "RealEstateAgent",
+          "name": "Del Prado Inversión Inmobiliaria",
+          "telephone": "+54 9 3794 74 0207",
+          "url": "https://delprado.hechoencorrientes.com"
+        }
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "{property.address}",
+        "addressLocality": "{property.city}",
+        "addressRegion": "Corrientes",
+        "addressCountry": "AR"
+      },
+      "floorSize": {
+        "@type": "QuantitativeValue",
+        "value": "{property.coveredM2}",
+        "unitCode": "MTK"
+      },
+      "numberOfRooms": "{property.bedrooms}",
+      "numberOfBathroomsTotal": "{property.bathrooms}",
+      "datePosted": "{property.listedAt}",
+      "category": "{property.type}",
+      "listingStatus": "{property.operation === 'venta' ? 'ForSale' : 'ForRent'}"
+    }
+  </script>
   <!-- Hero Section de la propiedad -->
   <section class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
     <div class="container-custom px-4 sm:px-6 py-12 sm:py-16">

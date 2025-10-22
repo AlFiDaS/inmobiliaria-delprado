@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+Disallow: /api/
 
-Sitemap: https://inmobiliariadelprado.com/sitemap.xml
+# Sitemap
+Sitemap: https://delprado.hechoencorrientes.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1

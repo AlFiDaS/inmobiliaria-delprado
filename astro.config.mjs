@@ -6,7 +6,7 @@ import react from '@astrojs/react';
 export default defineConfig({
   integrations: [tailwind(), react()],
   output: 'static',
-  site: 'https://inmobiliariadelprado.com',
+  site: 'https://delprado.hechoencorrientes.com',
   compressHTML: true,
   build: {
     inlineStylesheets: 'auto'
