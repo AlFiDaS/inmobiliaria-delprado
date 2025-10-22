@@ -59,7 +59,7 @@ export const properties: Property[] = [
       '/images/properties/base_1.jpg',
       '/images/properties/base_1.jpg'
     ],
-    highlight: true,
+    highlight: false,
     listedAt: '2024-01-15T10:00:00Z',
     location: { lat: -34.5889, lng: -58.3974 }
   },
@@ -124,7 +124,7 @@ export const properties: Property[] = [
     videos: [
       { kind: 'youtube', src: 'https://www.youtube.com/embed/example1' }
     ],
-    highlight: true,
+    highlight: false,
     listedAt: '2024-01-20T09:15:00Z',
     location: { lat: -34.4732, lng: -58.5277 }
   },
@@ -239,7 +239,7 @@ export const properties: Property[] = [
       '/images/properties/base_1.jpg',
       '/images/properties/base_1.jpg'
     ],
-    highlight: true,
+    highlight: false,
     listedAt: '2024-01-16T08:30:00Z',
     location: { lat: -34.6037, lng: -58.3816 }
   },
@@ -325,7 +325,7 @@ export const properties: Property[] = [
       '/images/properties/base_1.jpg',
       '/images/properties/base_1.jpg'
     ],
-    highlight: true,
+    highlight: false,
     listedAt: '2024-01-17T10:15:00Z',
     location: { lat: -34.5472, lng: -58.4600 }
   },
@@ -335,7 +335,7 @@ export const properties: Property[] = [
     title: 'Casa quinta residencial en Corrientes',
     address: 'Ruta Nacional 12 km 8',
     city: 'Corrientes',
-    neighborhood: 'Zona Norte',
+    neighborhood: 'Santa Ana',
     operation: 'venta',
     type: 'casa',
     price: 125000,
@@ -345,7 +345,7 @@ export const properties: Property[] = [
     bedrooms: 4,
     bathrooms: 3,
     parking: 2,
-    orientation: 'Norte',
+    orientation: 'Santa Ana',
     condition: 'bueno',
     year: 2018,
     amenities: ['Pileta', 'Jardín', 'Parrilla', 'Quincho', 'Cancha de fútbol'],
@@ -422,6 +422,53 @@ export const properties: Property[] = [
     ],
     highlight: true,
     listedAt: '2024-01-25T10:00:00Z',
+    location: { lat: -27.4692, lng: -58.8306 }
+  },
+  {
+    id: 'PROP014',
+    slug: 'depto-pasaje-alvarez-800',
+    title: 'Departamento en alquiler - Amplio y remodelado a nuevo',
+    address: 'Pasaje Álvarez 800 (esquina Av. Gdor. Pujol)',
+    city: 'Corrientes',
+    neighborhood: 'Centro',
+    operation: 'alquiler',
+    type: 'departamento',
+    price: 1000000,
+    currency: 'ARS',
+    coveredM2: 127,
+    bedrooms: 3,
+    bathrooms: 3,
+    orientation: 'Frente',
+    condition: 'bueno',
+    amenities: ['Living-comedor amplio', 'Cocina separada', 'Lavadero independiente', 'Despensa/Depósito', '3 baños (2 con ducha)', '3er piso por escalera'],
+    features: ['Remodelado a nuevo', 'Excelente ubicación', 'Cerca del Tenis Club Corrientes', 'Ajuste cada 4 meses por ICL'],
+    description: 'Impecable departamento de amplias dimensiones 127m2 remodelado a nuevo. Con 3 dormitorios, ofrece un amplio living-comedor, cocina separada, lavadero independiente y una habitación extra tipo despensa o depósito. Cuenta con 3 baños (2 de ellos con ducha), lo que brinda mayor comodidad. Además, el departamento se encuentra en un 3er piso por escalera, con excelente ubicación: a solo una cuadra del Tenis Club Corrientes. Valor alquiler: $1.000.000. Ajuste cada 4 meses por ICL. Expensas aprox: $60.000 - $90.000, luz aparte.',
+    images: [
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (1).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (2).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (3).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (4).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (5).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (6).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (7).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (8).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (9).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (10).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (11).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (12).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (13).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (14).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (15).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (16).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (17).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (18).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (19).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (20).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (21).jpeg',
+      '/images/properties/alquiler/PjeAlvarez873-3B/a (22).jpeg'
+    ],
+    highlight: true,
+    listedAt: '2024-01-28T10:00:00Z',
     location: { lat: -27.4692, lng: -58.8306 }
   }
 ];

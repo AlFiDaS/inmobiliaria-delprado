@@ -8,6 +8,7 @@ interface GalleryProps {
 export default function Gallery({ property }: GalleryProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'images' | 'videos'>('images');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { images, videos } = property;
 
   const hasVideos = videos && videos.length > 0;
@@ -20,12 +21,15 @@ export default function Gallery({ property }: GalleryProps) {
       } else if (e.key === 'ArrowRight') {
         e.preventDefault();
         goToNext();
+      } else if (e.key === 'Escape' && isModalOpen) {
+        e.preventDefault();
+        setIsModalOpen(false);
       }
     };
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [currentImageIndex, images.length]);
+  }, [currentImageIndex, images.length, isModalOpen]);
 
   const goToPrevious = () => {
     setCurrentImageIndex(prev => 
@@ -41,6 +45,14 @@ export default function Gallery({ property }: GalleryProps) {
 
   const goToImage = (index: number) => {
     setCurrentImageIndex(index);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   const renderVideo = (video: { kind: 'file' | 'youtube' | 'vimeo'; src: string }) => {
@@ -79,7 +91,7 @@ export default function Gallery({ property }: GalleryProps) {
   };
 
   return (
-    <div className="gallery-container">
+    <div className="gallery-container w-full max-w-full overflow-hidden" style={{boxSizing: 'border-box'}}>
       {/* Tabs */}
       {hasVideos && (
         <div className="flex mb-4">
@@ -107,14 +119,16 @@ export default function Gallery({ property }: GalleryProps) {
       )}
 
       {/* Contenido principal */}
-      <div className="relative bg-gray-100 rounded-lg overflow-hidden aspect-4-3">
+      <div className="relative bg-gray-100 rounded-lg overflow-hidden w-4/5 aspect-square mx-auto" style={{maxWidth: '80%', width: '80%'}}>
         {activeTab === 'images' ? (
           <>
             {/* Imagen principal */}
             <img
               src={images[currentImageIndex]}
               alt={`${property.title} - Imagen ${currentImageIndex + 1}`}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+              style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'cover', objectPosition: 'center'}}
+              onClick={openModal}
             />
 
             {/* Navegación */}
@@ -184,6 +198,67 @@ export default function Gallery({ property }: GalleryProps) {
         <p className="mt-2 text-xs text-gray-500 text-center">
           Usa las flechas ← → del teclado para navegar
         </p>
+      )}
+
+      {/* Modal de pantalla completa */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[9999] bg-black bg-opacity-90 flex items-center justify-center">
+          <div className="relative w-full h-full flex items-center justify-center p-4">
+            {/* Botón cerrar */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 z-[10000] bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-opacity"
+              aria-label="Cerrar modal"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Imagen en pantalla completa */}
+            <img
+              src={images[currentImageIndex]}
+              alt={`${property.title} - Imagen ${currentImageIndex + 1}`}
+              className="max-w-full max-h-full object-contain"
+            />
+
+            {/* Navegación en modal */}
+            {images.length > 1 && (
+              <>
+                <button
+                  onClick={goToPrevious}
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-75 transition-opacity"
+                  aria-label="Imagen anterior"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={goToNext}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-75 transition-opacity"
+                  aria-label="Imagen siguiente"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </>
+            )}
+
+            {/* Contador en modal */}
+            {images.length > 1 && (
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-4 py-2 rounded-full text-lg">
+                {currentImageIndex + 1} / {images.length}
+              </div>
+            )}
+
+            {/* Instrucciones en modal */}
+            <div className="absolute top-4 left-4 bg-black bg-opacity-50 text-white px-3 py-2 rounded-lg text-sm">
+              Usa ← → para navegar, ESC para cerrar
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
