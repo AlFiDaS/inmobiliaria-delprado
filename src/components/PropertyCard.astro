@@ -1,0 +1,147 @@
+---
+import { Image } from 'astro:assets';
+import { formatM2 } from '@/lib/format';
+import type { Property } from '@/data/properties';
+import Price from './Price.astro';
+
+export interface Props {
+  property: Property;
+  class?: string;
+}
+
+const { property, class: className = '' } = Astro.props;
+
+const {
+  slug,
+  title,
+  city,
+  neighborhood,
+  operation,
+  type,
+  price,
+  currency,
+  coveredM2,
+  totalM2,
+  bedrooms,
+  bathrooms,
+  parking,
+  images,
+  highlight
+} = property;
+
+const mainImage = images[0] || '/images/placeholder.jpg';
+const surface = totalM2 || coveredM2;
+const operationText = operation === 'venta' ? 'Venta' : 'Alquiler';
+---
+
+<article class={`group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:border-gray-200 transition-all duration-300 h-full flex flex-col ${className}`}>
+  <a href={`/propiedad/${slug}`} class="flex flex-col h-full">
+    <div class="relative overflow-hidden">
+      <Image
+        src={mainImage}
+        alt={title}
+        width={400}
+        height={300}
+        class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+        loading="lazy"
+      />
+      {highlight && (
+        <div class="absolute top-3 left-3">
+          <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+            ⭐ Destacada
+          </div>
+        </div>
+      )}
+      <div class="absolute top-3 right-3">
+        <div class={`px-3 py-1 rounded-full text-xs font-semibold shadow-lg ${
+          operation === 'venta' 
+            ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white' 
+            : 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white'
+        }`}>
+          {operationText}
+        </div>
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    </div>
+    
+    <div class="p-6 flex flex-col flex-grow">
+      <div class="mb-4">
+        <Price amount={price} currency={currency} size="lg" />
+      </div>
+      
+      <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-orange-600 transition-colors">
+        {title}
+      </h3>
+      
+      <div class="flex items-center text-gray-600 mb-4">
+        <div class="w-5 h-5 mr-2 text-gray-400">
+          <svg fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <span class="text-sm font-medium">
+          {neighborhood ? `${neighborhood}, ` : ''}{city}
+        </span>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4 mb-4 flex-grow">
+        {bedrooms && (
+          <div class="flex items-center text-gray-600">
+            <div class="w-5 h-5 mr-2 text-gray-400">
+              <svg fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+              </svg>
+            </div>
+            <span class="text-sm font-medium">{bedrooms} dorm.</span>
+          </div>
+        )}
+        {bathrooms && (
+          <div class="flex items-center text-gray-600">
+            <div class="w-5 h-5 mr-2 text-gray-400">
+              <svg fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <span class="text-sm font-medium">{bathrooms} baños</span>
+          </div>
+        )}
+        {surface && (
+          <div class="flex items-center text-gray-600">
+            <div class="w-5 h-5 mr-2 text-gray-400">
+              <svg fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <span class="text-sm font-medium">{formatM2(surface)}</span>
+          </div>
+        )}
+        {parking && (
+          <div class="flex items-center text-gray-600">
+            <div class="w-5 h-5 mr-2 text-gray-400">
+              <svg fill="currentColor" viewBox="0 0 20 20">
+                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1V8a1 1 0 00-1-1h-3z" />
+              </svg>
+            </div>
+            <span class="text-sm font-medium">{typeof parking === 'number' ? parking : '1'} cochera</span>
+          </div>
+        )}
+      </div>
+      
+      <div class="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
+        <div class="flex items-center">
+          <div class={`w-2 h-2 rounded-full mr-2 ${
+            operation === 'venta' ? 'bg-orange-500' : 'bg-emerald-500'
+          }`}></div>
+          <span class="text-sm font-medium text-gray-600 capitalize">{type}</span>
+        </div>
+        <div class="flex items-center text-sm text-gray-500 group-hover:text-orange-600 transition-colors">
+          <span>Ver detalles</span>
+          <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </a>
+</article>

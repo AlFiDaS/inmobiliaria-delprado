@@ -1,0 +1,24 @@
+---
+import { formatPrice } from '@/lib/format';
+
+export interface Props {
+  amount: number;
+  currency?: 'ARS' | 'USD';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const { amount, currency = 'ARS', size = 'md', class: className = '' } = Astro.props;
+
+const sizeClasses = {
+  sm: 'text-lg font-semibold',
+  md: 'text-xl font-bold',
+  lg: 'text-2xl font-bold'
+};
+
+const classes = `${sizeClasses[size]} text-orange-600 ${className}`;
+---
+
+<span class={classes}>
+  {formatPrice(amount, currency)}
+</span>

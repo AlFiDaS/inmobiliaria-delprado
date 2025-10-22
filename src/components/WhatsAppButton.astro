@@ -1,0 +1,38 @@
+---
+import { waLink } from '@/lib/whatsapp';
+import Icon from './Icon.astro';
+
+export interface Props {
+  message: string;
+  variant?: 'primary' | 'success';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const { message, variant = 'success', size = 'md', class: className = '' } = Astro.props;
+
+const variantClasses = {
+  primary: 'btn-primary',
+  success: 'whatsapp-button'
+};
+
+const sizeClasses = {
+  sm: 'px-3 py-1.5 text-sm',
+  md: 'px-4 py-2 text-sm',
+  lg: 'px-6 py-3 text-base'
+};
+
+const classes = `${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+const whatsappUrl = waLink(message);
+---
+
+<a 
+  href={whatsappUrl} 
+  target="_blank" 
+  rel="noopener noreferrer"
+  class={classes}
+  aria-label="Contactar por WhatsApp"
+>
+  <Icon name="whatsapp" size={size} />
+  <span>WhatsApp</span>
+</a>
