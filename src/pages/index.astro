@@ -1,6 +1,5 @@
 ---
 import Base from '@/layouts/Base.astro';
-import PropertyCard from '@/components/PropertyCard.astro';
 import { properties } from '@/data/properties';
 
 // Obtener solo propiedades destacadas
@@ -253,7 +252,7 @@ const featuredProperties = properties.filter(p => p.highlight);
   </section>
 </Base>
 
-<script id="properties-data" type="application/json" set:html={JSON.stringify(featuredProperties)}></script>
+<script id="properties-data" type="application/json" is:inline set:html={JSON.stringify(featuredProperties)}></script>
 
 <script>
   // Hacer scroll suave cuando se hace clic en la flecha
