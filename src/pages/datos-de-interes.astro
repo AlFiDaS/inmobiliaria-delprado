@@ -9,7 +9,7 @@ import Base from '@/layouts/Base.astro';
   image="/images/datos-de-interes.jpg"
 >
   <!-- Hero Section -->
-  <section class="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
+  <section class="relative min-h-[40vh] sm:min-h-[50vh] flex items-center justify-center overflow-hidden">
     <!-- Background Image -->
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('/images/datos-de-interes.jpg');"></div>
     
@@ -21,51 +21,51 @@ import Base from '@/layouts/Base.astro';
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 text-center">
       <div class="max-w-4xl mx-auto">
         <!-- Badge -->
-        <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 mb-6">
-          <svg class="w-4 h-4 mr-2 text-white" fill="currentColor" viewBox="0 0 20 20">
+        <div class="inline-flex items-center px-3 sm:px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 mb-4 sm:mb-6">
+          <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-2 text-white" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>
-          <span class="text-sm font-medium text-white">Información actualizada</span>
+          <span class="text-xs sm:text-sm font-medium text-white">Información actualizada</span>
         </div>
         
         <!-- Main Title -->
-        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-white">
+        <h1 class="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 text-white px-2">
           <span class="bg-gradient-to-r from-gold-300 to-gold-100 bg-clip-text text-transparent">
             Datos de Interés
           </span>
         </h1>
         
         <!-- Subtitle -->
-        <p class="text-lg sm:text-xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed">
+        <p class="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-2">
           Toda la información que necesitas para tu próxima operación inmobiliaria. 
           Requisitos, gastos, procesos y consejos útiles.
         </p>
         
         <!-- Stats -->
-        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+        <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
           <div class="flex items-center text-white/90">
-            <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center mr-3">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center mr-3">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
               </svg>
             </div>
-            <span class="text-sm font-medium">Información actualizada</span>
+            <span class="text-xs sm:text-sm font-medium">Información actualizada</span>
           </div>
           <div class="flex items-center text-white/90">
-            <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center mr-3">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center mr-3">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
               </svg>
             </div>
-            <span class="text-sm font-medium">Asesoramiento profesional</span>
+            <span class="text-xs sm:text-sm font-medium">Asesoramiento profesional</span>
           </div>
         </div>
       </div>
     </div>
     
     <!-- Scroll Indicator -->
-    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-      <svg class="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
       </svg>
     </div>
@@ -85,12 +85,12 @@ import Base from '@/layouts/Base.astro';
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Requisitos para Alquilar</h2>
+              <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Requisitos para Alquilar</h2>
             </div>
             
             <div class="space-y-6">
               <div class="bg-orange-50 rounded-xl p-6">
-                <h3 class="text-lg font-semibold text-orange-900 mb-3 flex items-center">
+                <h3 class="text-base sm:text-lg font-semibold text-orange-900 mb-3 flex items-center">
                   <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
                   </svg>
@@ -137,7 +137,7 @@ import Base from '@/layouts/Base.astro';
               </div>
               
               <div class="bg-blue-50 rounded-xl p-6">
-                <h3 class="text-lg font-semibold text-blue-900 mb-3 flex items-center">
+                <h3 class="text-base sm:text-lg font-semibold text-blue-900 mb-3 flex items-center">
                   <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd" />
@@ -160,7 +160,7 @@ import Base from '@/layouts/Base.astro';
               </div>
               
               <div class="bg-green-50 rounded-xl p-6">
-                <h3 class="text-lg font-semibold text-green-900 mb-3 flex items-center">
+                <h3 class="text-base sm:text-lg font-semibold text-green-900 mb-3 flex items-center">
                   <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                   </svg>
@@ -204,12 +204,12 @@ import Base from '@/layouts/Base.astro';
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                 </svg>
               </div>
-              <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Gastos en Compraventa</h2>
+              <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Gastos en Compraventa</h2>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div class="bg-red-50 rounded-xl p-6">
-                <h3 class="text-lg font-semibold text-red-900 mb-4 flex items-center">
+                <h3 class="text-base sm:text-lg font-semibold text-red-900 mb-4 flex items-center">
                   <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                   </svg>
@@ -250,7 +250,7 @@ import Base from '@/layouts/Base.astro';
               </div>
               
               <div class="bg-purple-50 rounded-xl p-6">
-                <h3 class="text-lg font-semibold text-purple-900 mb-4 flex items-center">
+                <h3 class="text-base sm:text-lg font-semibold text-purple-900 mb-4 flex items-center">
                   <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                   </svg>
@@ -288,14 +288,14 @@ import Base from '@/layouts/Base.astro';
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                 </svg>
               </div>
-              <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Proceso de Escrituración</h2>
+              <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Proceso de Escrituración</h2>
             </div>
             
             <div class="space-y-6">
               <div class="flex items-start">
                 <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-4 flex-shrink-0 shadow-lg">1</div>
                 <div class="bg-orange-50 rounded-xl p-4 flex-1">
-                  <h3 class="font-semibold text-orange-900 text-lg mb-2">Verificación de títulos</h3>
+                  <h3 class="font-semibold text-orange-900 text-base sm:text-lg mb-2">Verificación de títulos</h3>
                   <p class="text-orange-800">Se verifica la titularidad y estado de la propiedad en el Registro de la Propiedad.</p>
                 </div>
               </div>
@@ -303,7 +303,7 @@ import Base from '@/layouts/Base.astro';
               <div class="flex items-start">
                 <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-4 flex-shrink-0 shadow-lg">2</div>
                 <div class="bg-blue-50 rounded-xl p-4 flex-1">
-                  <h3 class="font-semibold text-blue-900 text-lg mb-2">Tasación</h3>
+                  <h3 class="font-semibold text-blue-900 text-base sm:text-lg mb-2">Tasación</h3>
                   <p class="text-blue-800">Se realiza una tasación oficial para determinar el valor fiscal de la propiedad.</p>
                 </div>
               </div>
@@ -311,7 +311,7 @@ import Base from '@/layouts/Base.astro';
               <div class="flex items-start">
                 <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-4 flex-shrink-0 shadow-lg">3</div>
                 <div class="bg-green-50 rounded-xl p-4 flex-1">
-                  <h3 class="font-semibold text-green-900 text-lg mb-2">Boleto de compraventa</h3>
+                  <h3 class="font-semibold text-green-900 text-base sm:text-lg mb-2">Boleto de compraventa</h3>
                   <p class="text-green-800">Se firma el boleto con reserva de dominio y se entrega la seña.</p>
                 </div>
               </div>
@@ -319,7 +319,7 @@ import Base from '@/layouts/Base.astro';
               <div class="flex items-start">
                 <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-4 flex-shrink-0 shadow-lg">4</div>
                 <div class="bg-purple-50 rounded-xl p-4 flex-1">
-                  <h3 class="font-semibold text-purple-900 text-lg mb-2">Escritura</h3>
+                  <h3 class="font-semibold text-purple-900 text-base sm:text-lg mb-2">Escritura</h3>
                   <p class="text-purple-800">Se firma la escritura ante escribano público y se transfiere la propiedad.</p>
                 </div>
               </div>
@@ -334,12 +334,12 @@ import Base from '@/layouts/Base.astro';
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Preguntas Frecuentes</h2>
+              <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Preguntas Frecuentes</h2>
             </div>
             
             <div class="space-y-6">
               <div class="bg-gray-50 rounded-xl p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-3">¿Cuánto tiempo demora el proceso de alquiler?</h3>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3">¿Cuánto tiempo demora el proceso de alquiler?</h3>
                 <p class="text-gray-700">
                   El proceso completo puede demorar entre <strong>7 a 15 días hábiles</strong>, dependiendo de la documentación 
                   del inquilino y la aprobación de la garantía.
@@ -347,7 +347,7 @@ import Base from '@/layouts/Base.astro';
               </div>
               
               <div class="bg-gray-50 rounded-xl p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-3">¿Qué es el seguro de caución?</h3>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3">¿Qué es el seguro de caución?</h3>
                 <p class="text-gray-700">
                   Es una alternativa a la garantía propietaria. Una empresa aseguradora se hace cargo de 
                   garantizar el pago del alquiler en caso de incumplimiento del inquilino.
@@ -355,7 +355,7 @@ import Base from '@/layouts/Base.astro';
               </div>
               
               <div class="bg-gray-50 rounded-xl p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-3">¿Puedo alquilar sin garantía propietaria?</h3>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3">¿Puedo alquilar sin garantía propietaria?</h3>
                 <p class="text-gray-700">
                   Sí, puedes utilizar <strong>seguro de caución</strong> o <strong>depósito bancario</strong> como alternativa. 
                   Cada propietario tiene sus propios requisitos.
@@ -363,7 +363,7 @@ import Base from '@/layouts/Base.astro';
               </div>
               
               <div class="bg-gray-50 rounded-xl p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-3">¿Cuándo se actualiza el precio del alquiler?</h3>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3">¿Cuándo se actualiza el precio del alquiler?</h3>
                 <p class="text-gray-700">
                   Los contratos de alquiler se actualizan <strong>anualmente</strong> según el índice de inflación 
                   (IPC) publicado por el INDEC.
@@ -371,7 +371,7 @@ import Base from '@/layouts/Base.astro';
               </div>
               
               <div class="bg-gray-50 rounded-xl p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-3">¿Qué incluyen las expensas?</h3>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3">¿Qué incluyen las expensas?</h3>
                 <p class="text-gray-700">
                   Las expensas incluyen gastos comunes del edificio como <strong>limpieza, mantenimiento, 
                   seguridad, administración</strong> y servicios comunes.
@@ -386,7 +386,7 @@ import Base from '@/layouts/Base.astro';
           
           <!-- Contacto -->
           <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 p-6 sm:p-8">
-            <h3 class="text-xl font-bold text-gray-900 mb-4">¿Necesitas asesoramiento?</h3>
+            <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-4">¿Necesitas asesoramiento?</h3>
             <p class="text-gray-600 mb-6">
               Nuestros expertos están disponibles para resolver todas tus dudas sobre operaciones inmobiliarias.
             </p>
@@ -400,7 +400,7 @@ import Base from '@/layouts/Base.astro';
           
           <!-- Tips útiles -->
           <div class="bg-gradient-to-br from-orange-50/80 to-orange-100/80 backdrop-blur-sm rounded-3xl shadow-xl border border-orange-200/50 p-6 sm:p-8">
-            <h3 class="text-xl font-bold text-orange-900 mb-6">Tips Útiles</h3>
+            <h3 class="text-lg sm:text-xl font-bold text-orange-900 mb-6">Tips Útiles</h3>
             <ul class="space-y-4 text-orange-800">
               <li class="flex items-start">
                 <div class="w-6 h-6 bg-orange-200 rounded-full flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
@@ -439,7 +439,7 @@ import Base from '@/layouts/Base.astro';
           
           <!-- Enlaces útiles -->
           <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 p-6 sm:p-8">
-            <h3 class="text-xl font-bold text-gray-900 mb-6">Enlaces Útiles</h3>
+            <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-6">Enlaces Útiles</h3>
             <ul class="space-y-3">
               <li>
                 <a href="https://www.afip.gob.ar" target="_blank" rel="noopener noreferrer" class="flex items-center text-orange-600 hover:text-orange-700 transition-colors">

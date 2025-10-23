@@ -29,7 +29,7 @@ export default function Gallery({ property }: GalleryProps) {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [currentImageIndex, images.length, isModalOpen]);
+  }, [isModalOpen]);
 
   const goToPrevious = () => {
     setCurrentImageIndex(prev => 
@@ -91,7 +91,7 @@ export default function Gallery({ property }: GalleryProps) {
   };
 
   return (
-    <div className="gallery-container w-full max-w-full overflow-hidden" style={{boxSizing: 'border-box'}}>
+    <div className="gallery-container w-full max-w-full overflow-hidden mt-2.5" style={{boxSizing: 'border-box'}}>
       {/* Tabs */}
       {hasVideos && (
         <div className="flex mb-4">
@@ -172,22 +172,44 @@ export default function Gallery({ property }: GalleryProps) {
 
       {/* Thumbnails */}
       {activeTab === 'images' && images.length > 1 && (
-        <div className="mt-4 flex space-x-2 overflow-x-auto scrollbar-hide">
+        <div className="mt-4 flex space-x-2 overflow-x-auto scrollbar-hide" ref={(el) => {
+          if (el) {
+            // Scroll automático para mantener la miniatura activa visible
+            const activeThumbnail = el.children[currentImageIndex] as HTMLElement;
+            if (activeThumbnail) {
+              activeThumbnail.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+              });
+            }
+          }
+        }}>
           {images.map((image, index) => (
             <button
               key={index}
               onClick={() => goToImage(index)}
-              className={`gallery-thumbnail flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${
+              className={`gallery-thumbnail relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
                 index === currentImageIndex
-                  ? 'border-primary-500'
+                  ? 'border-orange-500 ring-2 ring-orange-200 shadow-lg'
                   : 'border-gray-200 hover:border-gray-300'
               }`}
             >
               <img
                 src={image}
                 alt={`Miniatura ${index + 1}`}
-                className="w-full h-full object-cover"
+                className={`w-full h-full object-cover transition-all duration-200 ${
+                  index === currentImageIndex
+                    ? 'opacity-100'
+                    : 'opacity-70 hover:opacity-90'
+                }`}
               />
+              {/* Indicador de imagen activa */}
+              {index === currentImageIndex && (
+                <div className="absolute inset-0 bg-orange-500 bg-opacity-20 flex items-center justify-center">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                </div>
+              )}
             </button>
           ))}
         </div>
