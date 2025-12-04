@@ -5,7 +5,7 @@ import react from '@astrojs/react';
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), react()],
-  output: 'static',
+  output: 'static', // Modo estático para Hostinger (no soporta SSR)
   site: 'https://delprado.hechoencorrientes.com',
   compressHTML: true,
   build: {

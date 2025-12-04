@@ -1,0 +1,28 @@
+# Protección de archivos sensibles
+<Files "config.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Protección de archivos de log
+<FilesMatch "\.log$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Prevenir listado de directorios
+Options -Indexes
+
+# Habilitar rewrite engine
+RewriteEngine On
+
+# Redirigir rutas de propiedades dinámicas a propiedad.html
+# Esto permite que /propiedad/[cualquier-slug] funcione en modo estático
+# Mantiene la URL original pero sirve propiedad.html internamente
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^propiedad/(.+)$ /propiedad.html?slug=$1 [L,QSA]
+
+# Forzar HTTPS (descomentar cuando tengas SSL activo en Hostinger)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

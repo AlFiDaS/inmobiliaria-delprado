@@ -1,17 +1,5 @@
 ---
 import Base from '@/layouts/Base.astro';
-import PropertyCard from '@/components/PropertyCard.astro';
-import { properties } from '@/data/properties';
-
-// Filtrar solo propiedades en alquiler y ordenar: destacadas primero
-const rentalProperties = properties
-  .filter(property => property.operation === 'alquiler')
-  .sort((a, b) => {
-    // Propiedades destacadas primero
-    if (a.highlight && !b.highlight) return -1;
-    if (!a.highlight && b.highlight) return 1;
-    return 0;
-  });
 ---
 
 <Base 
@@ -37,7 +25,7 @@ const rentalProperties = properties
           <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-2 text-white" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>
-          <span class="text-xs sm:text-sm font-medium text-white">{rentalProperties.length} propiedades disponibles</span>
+          <span class="text-xs sm:text-sm font-medium text-white" data-property-count>0</span> propiedades disponibles
         </div>
         
         <!-- Main Title -->
@@ -62,7 +50,7 @@ const rentalProperties = properties
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
               </svg>
             </div>
-            <span class="text-xs sm:text-sm font-medium">{rentalProperties.length} propiedades disponibles</span>
+            <span class="text-xs sm:text-sm font-medium" data-property-count>0</span> propiedades disponibles
           </div>
           <div class="flex items-center text-white/90">
             <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center mr-3">
@@ -102,36 +90,124 @@ const rentalProperties = properties
         </p>
       </div>
       
-      <!-- Grid de propiedades -->
-      {rentalProperties.length > 0 ? (
-        <div class="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-6 xl:gap-8">
-          {rentalProperties.map(property => (
-            <div class="group">
-              <PropertyCard property={property} />
-            </div>
-          ))}
+      <!-- Grid de propiedades - Se carga dinámicamente -->
+      <div id="properties-container" class="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-6 xl:gap-8">
+        <!-- Las propiedades se cargarán aquí dinámicamente -->
+        <div class="col-span-full text-center py-12">
+          <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
+          <p class="mt-4 text-gray-600">Se están agregando propiedades, espere un momento...</p>
         </div>
-      ) : (
-        <div class="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl border border-white/50 p-6 sm:p-8 md:p-12 lg:p-16 text-center">
-          <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-8">
-            <svg class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
-          </div>
-          <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 px-2">No hay propiedades disponibles</h3>
-          <p class="text-gray-600 mb-6 sm:mb-8 max-w-md mx-auto text-sm sm:text-base md:text-lg px-2">
-            En este momento no tenemos propiedades en alquiler disponibles. 
-            Contacta con nosotros para más información.
-          </p>
-          <a href="/contacto" class="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-xl sm:rounded-2xl hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base">
-            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-            </svg>
-            Contactar
-          </a>
+      </div>
+      
+      <!-- Mensaje cuando no hay propiedades (oculto por defecto) -->
+      <div id="no-properties-message" class="hidden bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl border border-white/50 p-6 sm:p-8 md:p-12 lg:p-16 text-center">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-8">
+          <svg class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
         </div>
-      )}
+        <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 px-2">No hay propiedades disponibles</h3>
+        <p class="text-gray-600 mb-6 sm:mb-8 max-w-md mx-auto text-sm sm:text-base md:text-lg px-2">
+          En este momento no tenemos propiedades en alquiler disponibles. 
+          Contacta con nosotros para más información.
+        </p>
+        <a href="/contacto" class="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-xl sm:rounded-2xl hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+          </svg>
+          Contactar
+        </a>
+      </div>
     </div>
   </section>
+  
+  <script>
+    // Función para cargar propiedades directamente
+    async function loadPropertiesDirect(options: any = {}) {
+      const params = new URLSearchParams();
+      if (options.operation) params.append('operation', options.operation);
+      if (options.type) params.append('type', options.type);
+      if (options.city) params.append('city', options.city);
+      if (options.highlight !== undefined) params.append('highlight', options.highlight ? '1' : '0');
+      if (options.slug) params.append('slug', options.slug);
+      
+      const isDevelopment = window.location.port === '4321' || window.location.hostname === 'localhost';
+      const apiBase = isDevelopment ? 'http://localhost:8000' : '';
+      const url = `${apiBase}/api/properties.php${params.toString() ? '?' + params.toString() : ''}`;
+      
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error al obtener propiedades:', error);
+        return [];
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', async function() {
+      const container = document.getElementById('properties-container');
+      const noPropertiesMsg = document.getElementById('no-properties-message');
+      
+      if (!container) {
+        console.error('No se encontró el contenedor');
+        return;
+      }
+      
+      const properties = await loadPropertiesDirect({ operation: 'alquiler' });
+      
+      if (properties.length === 0) {
+        container.innerHTML = '';
+        if (noPropertiesMsg) {
+          noPropertiesMsg.classList.remove('hidden');
+        }
+      } else {
+        // Ordenar: destacadas primero
+        properties.sort((a: any, b: any) => {
+          if (a.highlight && !b.highlight) return -1;
+          if (!a.highlight && b.highlight) return 1;
+          return 0;
+        });
+        
+        let html = '';
+        properties.forEach((prop: any) => {
+          const image = prop.images && prop.images.length > 0 ? prop.images[0] : '/images/placeholder.jpg';
+          const price = prop.currency === 'USD' 
+            ? `USD ${prop.price.toLocaleString()}`
+            : `$${prop.price.toLocaleString()}`;
+          
+          const propHtml = `
+            <div class="group">
+              <a href="/propiedad/${prop.slug}" class="block bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+                <div class="relative h-48 overflow-hidden">
+                  <img src="${image}" alt="${prop.title}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" onerror="this.src='/images/placeholder.jpg'">
+                  ${prop.highlight ? '<div class="absolute top-2 left-2"><span class="px-2 py-1 bg-emerald-600 text-white text-xs font-semibold rounded">⭐ Destacada</span></div>' : ''}
+                  <div class="absolute top-2 right-2">
+                    <span class="px-2 py-1 bg-emerald-600 text-white text-xs font-semibold rounded">Alquiler</span>
+                  </div>
+                </div>
+                <div class="p-4">
+                  <h3 class="font-bold text-gray-900 mb-2 line-clamp-2">${prop.title}</h3>
+                  <p class="text-sm text-gray-600 mb-2">${prop.city}${prop.neighborhood ? ', ' + prop.neighborhood : ''}</p>
+                  <p class="text-lg font-bold text-emerald-600 mb-2">${price}</p>
+                  ${prop.bedrooms ? `<p class="text-sm text-gray-600">${prop.bedrooms} dormitorios</p>` : ''}
+                </div>
+              </a>
+            </div>
+          `;
+          html += propHtml;
+        });
+        
+        container.innerHTML = html;
+        
+        // Actualizar contador
+        const countElements = document.querySelectorAll('[data-property-count]');
+        countElements.forEach((el: any) => el.textContent = properties.length);
+      }
+    });
+  </script>
 </Base>

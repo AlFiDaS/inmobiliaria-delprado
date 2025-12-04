@@ -1,17 +1,5 @@
 ---
 import Base from '@/layouts/Base.astro';
-import PropertyCard from '@/components/PropertyCard.astro';
-import { properties } from '@/data/properties';
-
-// Filtrar solo propiedades en venta y ordenar: destacadas primero
-const saleProperties = properties
-  .filter(property => property.operation === 'venta')
-  .sort((a, b) => {
-    // Propiedades destacadas primero
-    if (a.highlight && !b.highlight) return -1;
-    if (!a.highlight && b.highlight) return 1;
-    return 0;
-  });
 ---
 
 <Base 
@@ -37,7 +25,7 @@ const saleProperties = properties
           <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-2 text-white" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>
-          <span class="text-xs sm:text-sm font-medium text-white">{saleProperties.length} propiedades disponibles</span>
+          <span class="text-xs sm:text-sm font-medium text-white" data-property-count>0</span> propiedades disponibles
         </div>
         
         <!-- Main Title -->
@@ -62,7 +50,7 @@ const saleProperties = properties
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
               </svg>
             </div>
-            <span class="text-xs sm:text-sm font-medium">{saleProperties.length} propiedades disponibles</span>
+            <span class="text-xs sm:text-sm font-medium" data-property-count>0</span> propiedades disponibles
           </div>
           <div class="flex items-center text-white/90">
             <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center mr-2 sm:mr-3">
@@ -102,16 +90,17 @@ const saleProperties = properties
         </p>
       </div>
       
-      <!-- Grid de propiedades -->
-      {saleProperties.length > 0 ? (
-        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6 lg:gap-8">
-          {saleProperties.map(property => (
-            <div class="group">
-              <PropertyCard property={property} />
-            </div>
-          ))}
+      <!-- Grid de propiedades - Se carga dinámicamente -->
+      <div id="properties-container" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6 lg:gap-8">
+        <!-- Las propiedades se cargarán aquí dinámicamente -->
+        <div class="col-span-full text-center py-12">
+          <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
+          <p class="mt-4 text-gray-600">Se están agregando propiedades, espere un momento...</p>
         </div>
-      ) : (
+      </div>
+      
+      <!-- Mensaje cuando no hay propiedades (oculto por defecto) -->
+      <div id="no-properties-message" class="hidden">
         <div class="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl border border-white/50 p-6 sm:p-8 md:p-12 lg:p-16 text-center">
           <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8">
             <svg class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,7 +120,127 @@ const saleProperties = properties
             Contactar
           </a>
         </div>
-      )}
+      </div>
     </div>
   </section>
+  
+  <script>
+    // Función para cargar propiedades directamente (sin depender del archivo externo)
+    async function loadPropertiesDirect(options: any = {}) {
+      const params = new URLSearchParams();
+      if (options.operation) params.append('operation', options.operation);
+      if (options.type) params.append('type', options.type);
+      if (options.city) params.append('city', options.city);
+      if (options.highlight !== undefined) params.append('highlight', options.highlight ? '1' : '0');
+      if (options.slug) params.append('slug', options.slug);
+      
+      const isDevelopment = window.location.port === '4321' || window.location.hostname === 'localhost';
+      const apiBase = isDevelopment ? 'http://localhost:8000' : '';
+      const url = `${apiBase}/api/properties.php${params.toString() ? '?' + params.toString() : ''}`;
+      
+      console.log('Cargando propiedades desde:', url);
+      
+      try {
+        const response = await fetch(url);
+        console.log('Respuesta recibida:', response.status);
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+        const data = await response.json();
+        console.log('Propiedades recibidas:', data.length, data);
+        return data;
+      } catch (error) {
+        console.error('Error al obtener propiedades:', error);
+        return [];
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', async function() {
+      console.log('Script de carga de propiedades iniciado');
+      const container = document.getElementById('properties-container');
+      const noPropertiesMsg = document.getElementById('no-properties-message');
+      
+      if (!container) {
+        console.error('No se encontró el contenedor properties-container');
+        return;
+      }
+      
+      console.log('Cargando propiedades...');
+      const properties = await loadPropertiesDirect({ operation: 'venta' });
+      console.log('Propiedades cargadas:', properties);
+      
+      if (properties.length === 0) {
+        console.log('No hay propiedades disponibles');
+        container.innerHTML = '';
+        if (noPropertiesMsg) {
+          noPropertiesMsg.classList.remove('hidden');
+        }
+      } else {
+        console.log(`Renderizando ${properties.length} propiedades`);
+        // Ordenar: destacadas primero
+        properties.sort((a: any, b: any) => {
+          if (a.highlight && !b.highlight) return -1;
+          if (!a.highlight && b.highlight) return 1;
+          return 0;
+        });
+        
+        console.log('Propiedades antes de map:', properties);
+        let html = '';
+        properties.forEach((prop: any, index: number) => {
+          console.log(`Procesando propiedad ${index + 1}:`, prop.id, prop.title);
+          const image = prop.images && prop.images.length > 0 ? prop.images[0] : '/images/placeholder.jpg';
+          const price = prop.currency === 'USD' 
+            ? `USD ${prop.price.toLocaleString()}`
+            : `$${prop.price.toLocaleString()}`;
+          
+          const propHtml = `
+            <div class="group">
+              <a href="/propiedad/${prop.slug}" class="block bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+                <div class="relative h-48 overflow-hidden">
+                  <img src="${image}" alt="${prop.title}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" onerror="this.src='/images/placeholder.jpg'">
+                  ${prop.highlight ? '<div class="absolute top-2 left-2"><span class="px-2 py-1 bg-orange-600 text-white text-xs font-semibold rounded">⭐ Destacada</span></div>' : ''}
+                  <div class="absolute top-2 right-2">
+                    <span class="px-2 py-1 bg-orange-600 text-white text-xs font-semibold rounded">Venta</span>
+                  </div>
+                </div>
+                <div class="p-4">
+                  <h3 class="font-bold text-gray-900 mb-2 line-clamp-2">${prop.title}</h3>
+                  <p class="text-sm text-gray-600 mb-2">${prop.city}${prop.neighborhood ? ', ' + prop.neighborhood : ''}</p>
+                  <p class="text-lg font-bold text-orange-600 mb-2">${price}</p>
+                  ${prop.bedrooms ? `<p class="text-sm text-gray-600">${prop.bedrooms} dormitorios</p>` : ''}
+                </div>
+              </a>
+            </div>
+          `;
+          html += propHtml;
+        });
+        
+        console.log('Total de propiedades procesadas:', properties.length);
+        console.log('HTML generado (longitud):', html.length);
+        console.log('HTML generado (primeros 500 chars):', html.substring(0, 500));
+        
+        // Limpiar contenedor antes de insertar
+        container.innerHTML = '';
+        
+        // Insertar HTML
+        container.innerHTML = html;
+        
+        // Verificar que se insertaron todos los elementos
+        const insertedElements = container.querySelectorAll('.group');
+        console.log('Elementos insertados en DOM:', insertedElements.length);
+        console.log('Elementos hijos del contenedor:', container.children.length);
+        
+        // Si hay menos elementos de los esperados, mostrar más info
+        if (insertedElements.length !== properties.length) {
+          console.warn('⚠️ DISCREPANCIA: Se procesaron', properties.length, 'propiedades pero solo se insertaron', insertedElements.length, 'elementos');
+          console.log('HTML completo:', html);
+        }
+        
+        // Actualizar contador
+        const countElements = document.querySelectorAll('[data-property-count]');
+        countElements.forEach(el => el.textContent = properties.length);
+        console.log('Propiedades renderizadas correctamente');
+      }
+    });
+  </script>
 </Base>

@@ -1,9 +1,5 @@
 ---
 import Base from '@/layouts/Base.astro';
-import { properties } from '@/data/properties';
-
-// Obtener solo propiedades destacadas
-const featuredProperties = properties.filter(p => p.highlight);
 ---
 
 <Base 
@@ -252,8 +248,8 @@ const featuredProperties = properties.filter(p => p.highlight);
   </section>
 </Base>
 
-<script id="properties-data" type="application/json" is:inline set:html={JSON.stringify(featuredProperties)}></script>
-
+<!-- Cargar propiedades dinámicamente desde la API -->
+<script src="/js/properties-loader.js" is:inline></script>
 <script>
   // Hacer scroll suave cuando se hace clic en la flecha
   document.addEventListener('DOMContentLoaded', function() {
