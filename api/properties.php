@@ -73,20 +73,52 @@ try {
         
         $images = !empty($prop['images']) ? json_decode($prop['images'], true) : [];
         $images = is_array($images) ? $images : [];
-        // Asegurar que las rutas de imágenes sean absolutas
+        // Asegurar que las rutas de imágenes sean absolutas y agregar cache busting
         if (!empty($images)) {
-            $images = array_map(function($img) {
+            $images = array_map(function($img) use ($prop) {
                 // Si la imagen ya tiene http:// o https://, dejarla como está
                 if (strpos($img, 'http://') === 0 || strpos($img, 'https://') === 0) {
                     return $img;
                 }
-                // Si empieza con /, agregar el dominio completo
+                
+                // Construir ruta absoluta
+                $fullPath = null;
                 if (strpos($img, '/') === 0) {
                     // Detectar si estamos en desarrollo o producción
                     $isDevelopment = strpos($_SERVER['HTTP_HOST'] ?? '', 'localhost') !== false;
                     $baseUrl = $isDevelopment ? 'http://localhost:8000' : SITE_URL;
-                    return $baseUrl . $img;
+                    $fullPath = $baseUrl . $img;
+                    
+                    // Intentar obtener el tiempo de modificación del archivo para cache busting
+                    $filePath = null;
+                    if (isset($_SERVER['DOCUMENT_ROOT'])) {
+                        $filePath = $_SERVER['DOCUMENT_ROOT'] . $img;
+                    } elseif (defined('UPLOAD_BASE_PATH')) {
+                        // Construir ruta desde la ruta de upload
+                        $relativePath = str_replace('/images/properties/', '', $img);
+                        $filePath = UPLOAD_BASE_PATH . '/' . dirname($relativePath) . '/' . basename($img);
+                    }
+                    
+                    // Si el archivo existe, usar su tiempo de modificación como timestamp
+                    $timestamp = null;
+                    if ($filePath && file_exists($filePath)) {
+                        $timestamp = filemtime($filePath);
+                    } elseif (!empty($prop['listedAt'])) {
+                        // Fallback: usar listedAt
+                        $date = new DateTime($prop['listedAt']);
+                        $timestamp = $date->getTimestamp();
+                    } else {
+                        // Último fallback: timestamp actual
+                        $timestamp = time();
+                    }
+                    
+                    // Agregar cache busting
+                    $separator = strpos($fullPath, '?') !== false ? '&' : '?';
+                    $fullPath = $fullPath . $separator . 'v=' . $timestamp;
+                    
+                    return $fullPath;
                 }
+                
                 return $img;
             }, $images);
         }

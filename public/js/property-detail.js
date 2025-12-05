@@ -2,6 +2,20 @@
  * Script para cargar y renderizar el detalle de una propiedad
  */
 
+// Función helper para cache busting de imágenes
+function addCacheBust(imageUrl, timestamp = null) {
+  if (!imageUrl || imageUrl === '/images/placeholder.jpg') return imageUrl;
+  const separator = imageUrl.includes('?') ? '&' : '?';
+  const cacheParam = timestamp || Math.floor(Date.now() / 1000);
+  return `${imageUrl}${separator}v=${cacheParam}`;
+}
+
+// Función para agregar cache busting a múltiples imágenes
+function addCacheBustToImages(imageUrls, timestamp = null) {
+  if (!Array.isArray(imageUrls)) return imageUrls;
+  return imageUrls.map(url => addCacheBust(url, timestamp));
+}
+
 // Función para formatear precio
 function formatPrice(price, currency = 'ARS') {
   if (currency === 'USD') {
@@ -401,7 +415,15 @@ function renderProperty(property, relatedProperties = []) {
     const relatedContainer = document.getElementById('related-properties-container');
     if (relatedContainer) {
       relatedContainer.innerHTML = relatedProperties.map((prop) => {
-        const image = prop.images && prop.images.length > 0 ? prop.images[0] : '/images/placeholder.jpg';
+        let image = prop.images && prop.images.length > 0 ? prop.images[0] : '/images/placeholder.jpg';
+        // Agregar cache busting
+        if (prop.listedAt) {
+          const date = new Date(prop.listedAt);
+          const timestamp = Math.floor(date.getTime() / 1000);
+          image = addCacheBust(image, timestamp);
+        } else {
+          image = addCacheBust(image);
+        }
         const price = formatPrice(prop.price, prop.currency);
         return `
           <div class="group">
@@ -450,8 +472,16 @@ function renderGalleryWithModal(property) {
     return;
   }
   
+  // Agregar cache busting a las imágenes usando timestamp de listedAt
+  let timestamp = null;
+  if (property.listedAt) {
+    const date = new Date(property.listedAt);
+    timestamp = Math.floor(date.getTime() / 1000);
+  }
+  const imagesWithCacheBust = addCacheBustToImages(property.images, timestamp);
+  
   // Inicializar estado de la galería
-  galleryState.images = property.images;
+  galleryState.images = imagesWithCacheBust;
   galleryState.propertyTitle = property.title;
   galleryState.currentImageIndex = 0;
   

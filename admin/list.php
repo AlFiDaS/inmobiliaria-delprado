@@ -6,6 +6,7 @@
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../db.php';
 require_once __DIR__ . '/../helpers/auth.php';
+require_once __DIR__ . '/../helpers/cache-bust.php';
 require_once __DIR__ . '/_inc/header.php';
 
 $pageTitle = 'Lista de Propiedades';
@@ -81,6 +82,8 @@ try {
                         if (strpos($thumbnail, 'http') !== 0 && strpos($thumbnail, '/') !== 0) {
                             $thumbnail = '/' . $thumbnail;
                         }
+                        // Agregar cache busting basado en tiempo de modificación del archivo
+                        $thumbnail = addCacheBustToImage($thumbnail, $property['listedAt'] ?? null);
                         $thumbnailUrl = (strpos($thumbnail, 'http') === 0) ? $thumbnail : SITE_URL . $thumbnail;
                         $priceText = $property['currency'] === 'USD' 
                             ? 'USD ' . number_format($property['price'], 0, ',', '.')

@@ -1,15 +1,34 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import type { Property } from '@/data/properties';
 
 interface GalleryProps {
   property: Property;
 }
 
+// Función helper para cache busting de imágenes
+function addCacheBust(imageUrl: string, timestamp?: number): string {
+  if (!imageUrl || imageUrl === '/images/placeholder.jpg') return imageUrl;
+  const separator = imageUrl.includes('?') ? '&' : '?';
+  const cacheParam = timestamp || Math.floor(Date.now() / 1000);
+  return `${imageUrl}${separator}v=${cacheParam}`;
+}
+
 export default function Gallery({ property }: GalleryProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'images' | 'videos'>('images');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { images, videos } = property;
+  const { images: originalImages, videos, listedAt } = property;
+  
+  // Agregar cache busting a las imágenes usando timestamp de listedAt
+  const images = useMemo(() => {
+    if (!originalImages || originalImages.length === 0) return [];
+    let timestamp: number | undefined = undefined;
+    if (listedAt) {
+      const date = new Date(listedAt);
+      timestamp = Math.floor(date.getTime() / 1000);
+    }
+    return originalImages.map(img => addCacheBust(img, timestamp));
+  }, [originalImages, listedAt]);
 
   const hasVideos = videos && videos.length > 0;
 

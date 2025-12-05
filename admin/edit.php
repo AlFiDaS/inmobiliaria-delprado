@@ -8,6 +8,7 @@ require_once __DIR__ . '/../db.php';
 require_once __DIR__ . '/../helpers/auth.php';
 require_once __DIR__ . '/../helpers/slugify.php';
 require_once __DIR__ . '/../helpers/upload.php';
+require_once __DIR__ . '/../helpers/cache-bust.php';
 
 requireAuth();
 
@@ -476,6 +477,8 @@ require_once __DIR__ . '/_inc/header.php';
                     if (strpos($imagePath, 'http') !== 0 && strpos($imagePath, '/') !== 0) {
                         $imagePath = '/' . $imagePath;
                     }
+                    // Agregar cache busting basado en tiempo de modificación del archivo
+                    $imagePath = addCacheBustToImage($imagePath, $property['listedAt'] ?? null);
                     $imageUrl = (strpos($imagePath, 'http') === 0) ? $imagePath : SITE_URL . $imagePath;
                 ?>
                     <div class="relative">

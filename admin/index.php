@@ -6,6 +6,7 @@
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../db.php';
 require_once __DIR__ . '/../helpers/auth.php';
+require_once __DIR__ . '/../helpers/cache-bust.php';
 require_once __DIR__ . '/_inc/header.php';
 
 $pageTitle = 'Panel de Administración';
@@ -157,10 +158,18 @@ try {
             <tbody class="bg-white divide-y divide-gray-200">
                 <?php foreach ($recentProperties as $property): 
                     $thumbnail = !empty($property['images']) ? $property['images'][0] : '/images/placeholder.jpg';
+                    // Asegurar que la ruta comience con / y agregar cache busting
+                    if (strpos($thumbnail, 'http') !== 0 && strpos($thumbnail, '/') !== 0) {
+                        $thumbnail = '/' . $thumbnail;
+                    }
+                    // Agregar cache busting basado en tiempo de modificación del archivo
+                    $thumbnail = addCacheBustToImage($thumbnail, $property['created_at'] ?? null);
+                    // Construir URL completa
+                    $thumbnailUrl = (strpos($thumbnail, 'http') === 0) ? $thumbnail : SITE_URL . $thumbnail;
                 ?>
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <img src="<?= escape($thumbnail) ?>" alt="" class="h-12 w-16 object-cover rounded">
+                            <img src="<?= escape($thumbnailUrl) ?>" alt="" class="h-12 w-16 object-cover rounded" onerror="this.src='<?= SITE_URL ?>/images/placeholder.jpg'">
                         </td>
                         <td class="px-6 py-4">
                             <div class="text-sm font-medium text-gray-900"><?= escape($property['title']) ?></div>

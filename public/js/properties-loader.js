@@ -2,6 +2,14 @@
  * Script para cargar propiedades dinámicamente desde la API PHP
  */
 
+// Función helper para cache busting de imágenes
+function addCacheBust(imageUrl, timestamp = null) {
+  if (!imageUrl || imageUrl === '/images/placeholder.jpg') return imageUrl;
+  const separator = imageUrl.includes('?') ? '&' : '?';
+  const cacheParam = timestamp || Math.floor(Date.now() / 1000);
+  return `${imageUrl}${separator}v=${cacheParam}`;
+}
+
 async function loadProperties(options = {}) {
   const params = new URLSearchParams();
   
@@ -50,7 +58,15 @@ async function renderFeaturedProperties() {
   const limitedProperties = properties.slice(0, 6);
   
   container.innerHTML = limitedProperties.map((prop, index) => {
-    const image = prop.images && prop.images.length > 0 ? prop.images[0] : '/images/placeholder.jpg';
+    let image = prop.images && prop.images.length > 0 ? prop.images[0] : '/images/placeholder.jpg';
+    // Agregar cache busting usando timestamp de listedAt si está disponible
+    if (prop.listedAt) {
+      const date = new Date(prop.listedAt);
+      const timestamp = Math.floor(date.getTime() / 1000);
+      image = addCacheBust(image, timestamp);
+    } else {
+      image = addCacheBust(image);
+    }
     const price = prop.currency === 'USD' 
       ? `USD ${prop.price.toLocaleString()}`
       : `$${prop.price.toLocaleString()}`;
@@ -97,7 +113,15 @@ async function renderPropertiesList(containerId, options = {}) {
   }
   
   container.innerHTML = properties.map(prop => {
-    const image = prop.images && prop.images.length > 0 ? prop.images[0] : '/images/placeholder.jpg';
+    let image = prop.images && prop.images.length > 0 ? prop.images[0] : '/images/placeholder.jpg';
+    // Agregar cache busting usando timestamp de listedAt si está disponible
+    if (prop.listedAt) {
+      const date = new Date(prop.listedAt);
+      const timestamp = Math.floor(date.getTime() / 1000);
+      image = addCacheBust(image, timestamp);
+    } else {
+      image = addCacheBust(image);
+    }
     const price = prop.currency === 'USD' 
       ? `USD ${prop.price.toLocaleString()}`
       : `$${prop.price.toLocaleString()}`;
