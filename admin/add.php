@@ -45,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'features' => !empty($_POST['features']) ? array_filter(array_map('trim', explode(',', $_POST['features']))) : [],
             'description' => trim($_POST['description'] ?? ''),
             'highlight' => isset($_POST['highlight']),
+            'visible' => isset($_POST['visible']), // Por defecto invisible (0) si no se marca
             'listedAt' => !empty($_POST['listedAt']) ? $_POST['listedAt'] : date('Y-m-d H:i:s'),
             'lat' => !empty($_POST['lat']) ? floatval($_POST['lat']) : null,
             'lng' => !empty($_POST['lng']) ? floatval($_POST['lng']) : null,
@@ -153,12 +154,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         id, slug, title, address, city, neighborhood, operation, type,
                         price, currency, coveredM2, totalM2, bedrooms, bathrooms, parking,
                         expenses, orientation, `condition`, year, amenities, features, description,
-                        images, videos, highlight, listedAt, lat, lng
+                        images, videos, highlight, visible, listedAt, lat, lng
                     ) VALUES (
                         :id, :slug, :title, :address, :city, :neighborhood, :operation, :type,
                         :price, :currency, :coveredM2, :totalM2, :bedrooms, :bathrooms, :parking,
                         :expenses, :orientation, :condition, :year, :amenities, :features, :description,
-                        :images, :videos, :highlight, :listedAt, :lat, :lng
+                        :images, :videos, :highlight, :visible, :listedAt, :lat, :lng
                     )
                 ');
                 
@@ -188,6 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':images' => json_encode($uploadedImages),
                     ':videos' => null, // Por ahora no se manejan videos
                     ':highlight' => $formData['highlight'] ? 1 : 0,
+                    ':visible' => $formData['visible'] ? 1 : 0,
                     ':listedAt' => $formData['listedAt'],
                     ':lat' => $formData['lat'],
                     ':lng' => $formData['lng'],
@@ -434,6 +436,18 @@ require_once __DIR__ . '/_inc/header.php';
                 <input type="checkbox" name="highlight" value="1" <?= ($formData['highlight'] ?? false) ? 'checked' : '' ?> 
                     class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
                 <span class="ml-2 text-sm text-gray-700">Propiedad destacada</span>
+            </label>
+        </div>
+        
+        <!-- Visible -->
+        <div class="md:col-span-2">
+            <label class="flex items-center">
+                <input type="checkbox" name="visible" value="1" <?= ($formData['visible'] ?? false) ? 'checked' : '' ?> 
+                    class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                <span class="ml-2 text-sm text-gray-700">
+                    <strong>Visible en la web</strong>
+                    <span class="block text-xs text-gray-500 mt-1">Si no está marcado, la propiedad no aparecerá en el sitio público</span>
+                </span>
             </label>
         </div>
     </div>

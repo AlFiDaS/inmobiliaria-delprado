@@ -22,11 +22,11 @@ try {
     $totalProperties = $countStmt->fetch()['total'];
     $totalPages = ceil($totalProperties / $perPage);
     
-    // Obtener propiedades con paginación
+    // Obtener propiedades con paginación (mostrar todas, visibles e invisibles)
     $stmt = $db->prepare('
-        SELECT id, slug, title, price, currency, operation, city, images, highlight
+        SELECT id, slug, title, price, currency, operation, city, images, highlight, visible
         FROM properties
-        ORDER BY highlight DESC, listedAt DESC
+        ORDER BY visible DESC, highlight DESC, listedAt DESC
         LIMIT :limit OFFSET :offset
     ');
     $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
@@ -95,9 +95,16 @@ try {
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="text-sm font-medium text-gray-900"><?= escape($property['id']) ?></span>
-                                <?php if ($property['highlight']): ?>
-                                    <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800">⭐ Destacada</span>
-                                <?php endif; ?>
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    <?php if ($property['highlight'] ?? false): ?>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800">⭐ Destacada</span>
+                                    <?php endif; ?>
+                                    <?php if (isset($property['visible']) && $property['visible']): ?>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">✓ Visible</span>
+                                    <?php else: ?>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">○ Oculta</span>
+                                    <?php endif; ?>
+                                </div>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="text-sm font-medium text-gray-900"><?= escape($property['title']) ?></div>

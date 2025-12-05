@@ -29,7 +29,8 @@ try {
     $slug = $_GET['slug'] ?? null;
     
     // Construir query
-    $query = 'SELECT * FROM properties WHERE 1=1';
+    // IMPORTANTE: Solo mostrar propiedades visibles (visible = 1)
+    $query = 'SELECT * FROM properties WHERE visible = 1';
     $params = [];
     
     if ($operation) {

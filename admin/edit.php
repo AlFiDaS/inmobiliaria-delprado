@@ -78,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'features' => !empty($_POST['features']) ? array_filter(array_map('trim', explode(',', $_POST['features']))) : [],
             'description' => trim($_POST['description'] ?? ''),
             'highlight' => isset($_POST['highlight']),
+            'visible' => isset($_POST['visible']), // Por defecto invisible (0) si no se marca
             'listedAt' => !empty($_POST['listedAt']) ? $_POST['listedAt'] : $property['listedAt'],
             'lat' => !empty($_POST['lat']) ? floatval($_POST['lat']) : null,
             'lng' => !empty($_POST['lng']) ? floatval($_POST['lng']) : null,
@@ -188,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         coveredM2 = :coveredM2, totalM2 = :totalM2, bedrooms = :bedrooms, bathrooms = :bathrooms,
                         parking = :parking, expenses = :expenses, orientation = :orientation, `condition` = :condition,
                         year = :year, amenities = :amenities, features = :features, description = :description,
-                        images = :images, highlight = :highlight, listedAt = :listedAt, lat = :lat, lng = :lng
+                        images = :images, highlight = :highlight, visible = :visible, listedAt = :listedAt, lat = :lat, lng = :lng
                     WHERE id = :id
                 ');
                 
@@ -217,6 +218,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':description' => $formData['description'] ?: null,
                     ':images' => json_encode($allImages),
                     ':highlight' => $formData['highlight'] ? 1 : 0,
+                    ':visible' => $formData['visible'] ? 1 : 0,
                     ':listedAt' => $formData['listedAt'],
                     ':lat' => $formData['lat'],
                     ':lng' => $formData['lng'],
@@ -461,6 +463,22 @@ require_once __DIR__ . '/_inc/header.php';
                 <input type="checkbox" name="highlight" value="1" <?= ($formData['highlight'] ?? false) ? 'checked' : '' ?> 
                     class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
                 <span class="ml-2 text-sm text-gray-700">Propiedad destacada</span>
+            </label>
+        </div>
+        
+        <!-- Visible -->
+        <div class="md:col-span-2">
+            <label class="flex items-center">
+                <?php 
+                    // Si hay datos del formulario (después de submit con error), usar esos, sino usar el valor de la propiedad
+                    $isVisible = isset($formData['visible']) ? $formData['visible'] : ($property['visible'] ?? 0);
+                ?>
+                <input type="checkbox" name="visible" value="1" <?= $isVisible ? 'checked' : '' ?> 
+                    class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                <span class="ml-2 text-sm text-gray-700">
+                    <strong>Visible en la web</strong>
+                    <span class="block text-xs text-gray-500 mt-1">Si no está marcado, la propiedad no aparecerá en el sitio público</span>
+                </span>
             </label>
         </div>
     </div>

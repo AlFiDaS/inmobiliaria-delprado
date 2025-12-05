@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS properties (
   images JSON NOT NULL,
   videos JSON, -- Array de objetos {kind: 'file'|'youtube'|'vimeo', src: string}
   highlight TINYINT(1) DEFAULT 0,
+  visible TINYINT(1) DEFAULT 0, -- 0 = invisible, 1 = visible en la web
   listedAt DATETIME NOT NULL,
   lat DECIMAL(10,6),
   lng DECIMAL(10,6),
@@ -42,6 +43,7 @@ CREATE TABLE IF NOT EXISTS properties (
   INDEX idx_city (city),
   INDEX idx_type (type),
   INDEX idx_highlight (highlight),
+  INDEX idx_visible (visible),
   INDEX idx_listedAt (listedAt),
   INDEX idx_slug (slug)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
